@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <hr>
+    <h1>{{ object_list.count }} Comments...</h1>
+    <div class='my-border' id="comments" style="border-radius: 15px;">
+        {% for comment in comments %}
+            <div class="comment row">
+                <img class="author-img col-sm-3" src="{{ comment.author.profile.image.url }}">
+                <h3 class="author col-sm-3"><a href="{% url 'user-posts' comment.author.username %}">{{ comment.author }}</a></h3>
+                <p style="margin-left: 10px;">{{ comment.comment|linebreaks }}</p>
+                <small class="date col-sm-2"   >{{ comment.date|date:" F d , Y" }}</small>
+            </div>
+            <hr>
+        {% empty %}
+            <p>No comments here yet :(</p>
+        {% endfor %}
+        <div class='container commentin mt-5 pt-5'>
+            <form method="POST" id="comment-form">
+                {% csrf_token %}
+                {{form}}
+                <button class="btn btn-outline-info col-lg-2 offset-10 mt-3" id='comment-button'>Post</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $(function(){
+            $("#comment-button").submit(function(e){
+                e.preventDefault();
+                var serializedData = $(this).serialize();
+                $.ajax({
+                    type : 'POST',
+                    url : "{% url 'add-comment' post.pk %}",
+                    data : serializedData,
+                    success: function(response) {
+                        $("#friend-form").trigger('reset')
+                       },
+                    error: function (xhr, errmsg, err){
+
+                   }
+                });
+            })
+        })
+    </script>
+{% endblock %}

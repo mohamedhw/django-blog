@@ -1,0 +1,18 @@
+{% extends 'base.html' %}   
+{% block content %}
+   <hr>
+   <h1>{{ object_list.count }} Comments...</h1>
+   <div class='my-border'>
+        {% for object in object_list %}
+            <div class="comment row">
+                <img class="author-img col-sm-3" src="{{ object.author.profile.image.url }}">
+                <h3 class="author col-sm-3"><a href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a></h3>
+                <p>{{ object.content|linebreaks }}</p>
+                <small class="date col-sm-2">{{ object.date|date:" F d , Y" }}</small>
+            </div>
+            <hr>
+        {% empty %}
+            <p>No comments here yet :(</p>
+        {% endfor %}
+    </div>
+{% endblock %}

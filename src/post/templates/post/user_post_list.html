@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content%}
+    <h1 style="margin-top: 80px">({{ posts.count }}) posted by {{ view.kwargs.username }}</h1>
+    {% for post in posts %}
+            <article>
+                <div class="articles col-lg-6 offset-3">
+                    <div class="article mt-5">
+                        <div class="article-detail-list row">
+                            <img class="author-img col-sm-3" src="{{ post.author.profile.image.url }}">
+                            <div class="col-sm-4">
+                                <h3 class="author">{{ post.author }}</h3>
+                                <small class="date">{{ post.date|date:" F d , Y" }}</small>
+                            </div>
+                        </div>
+                        <p><a href="{{ post.get_absolute_url }}">{{ post.body }}</a></p>
+                    </div>
+                </div>
+            </article>
+    {% endfor %}
+    <div class="up">&uarr;</div>
+    <script>
+        $(function(){
+            $(window).on('scroll', function(){
+                var sc = $(window).scrollTop(), //the heigh between the top and the scroll
+                    cc = $(window).height(); //the screen height
+                console.log(sc)
+                console.log(cc)
+                if(sc = (cc + 1)) {
+                    $('.up').fadeIn();
+                } else {
+                    $('.up').fadeOut();
+                }
+            });
+            
+            $(".up").click(function(){
+                $('body, html').animate({
+                    scrollTop: 0
+                }, 1000);
+            });
+        });
+    </script>
+{% endblock %}
