@@ -12,13 +12,15 @@ from .views import (
     #CommentView,
     detailview,
     like_button,
-    add_comment
+    add_comment,
+    aj_comments,
+    aj_get_comment,
     )
 
 from . import api
 
 
-
+app_name = 'post'
 
 urlpatterns = [
     path('', HomeView.as_view(), name='list'),
@@ -36,4 +38,6 @@ urlpatterns = [
     path('api-list/', api.ApiPostList.as_view(), name="api_view"),
     path('api-list/<int:pk>/', api.post_detail_api, name="api_detail"),
     path('<int:pk>/like/', like_button, name="like"),
+    path('comment/', aj_comments),
+    path('<int:pk>/get/', aj_get_comment, name="get"),
 ]

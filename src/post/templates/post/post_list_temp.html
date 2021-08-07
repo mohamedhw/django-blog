@@ -8,16 +8,16 @@
                         <div class="article-detail-list row">
                             <img class="author-img col-sm-3" src="{{ instance.author.profile.image.url }}">
                             <div class="col-sm-4">
-                                <h3 class="author"><a href="{% url 'user-posts' instance.author.username %}">{{ instance.author }}</a></h3>
-                                <small class="date">{{ instance.date|date:" F d , Y" }}</small>
+                                <h3 class="author"><a href="{% url 'post:user-posts' instance.author.username %}">{{ instance.author }}</a></h3>
+                                <small class="date">{{ instance.date|date:"d , M - f" }}</small>
                             </div>
                         </div>
-                        <p><a href="{{ instance.get_absolute_url }}">{{ instance.body }}</a></p>
+                        <p><a href="{{ instance.get_absolute_url }}">{{ instance.body|slice:250 }}</a></p>
                     </div>
                 </div>
             </article>
     {% endfor %}
-    <div class="col-lag-6 offset-lg-3">
+    <div class="col-lag-6 offset-lg-5">
         {% if is_paginated %}
 
             {% if page_obj.has_previous %}
@@ -40,4 +40,27 @@
 
         {% endif %}
     </div>
+    <script>
+        let counter = 0;
+        let quantity = 10;
+        document.addEventListener('DOMContentLoaded', load );
+        
+        window.onscroll = () => {
+            if (window.innerHeight + window.scrollY >= window.offsetHeight) {
+                load();
+            }
+        };
+
+        function load(){
+            const start = counter;
+            const end = start + quantity - 1;
+            counter = end + 1;
+            fetch(``)
+            .then(response => response.json())
+            .then(data => {
+                data.post
+            })
+        };
+
+    </script>
 {% endblock %}

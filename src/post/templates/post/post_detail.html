@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content%}
     <article>
         <div class="articles">
@@ -6,12 +7,12 @@
                 <div class="row">
                     <img class="author-img-detail col-sm-3" src="{{ post.author.profile.image.url }}">
                     <div class="article-detail col-sm-4">
-                        <h3 class="author"><a href="{% url 'profile' %}">{{ post.author }}</a></h3>
+                        <h3 class="author"><a href="{% url 'post:user-posts' user.username %}">{{ post.author }}</a></h3>
                         <small class="date">{{ post.date|date:" F d , Y" }}</small>
                         {% if post.author == user %}
                         <div>
-                            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'update' post.id %}">Update</a>
-                            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'delete' post.id %}">Delete</a>
+                            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post:update' post.id %}">Update</a>
+                            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post:delete' post.id %}">Delete</a>
                         </div>
                         {% endif %}
                     </div>
@@ -20,12 +21,12 @@
                 {% if post.image %}
                     <img class="col-lg-8 detail-img" src="{{post.image.url}}">
                 {% endif %}
-                <p>{{ post.body }}</p>
+                <p class="mt-5">{{ post.body }}</p>
             </div>
             <div class="mx-3 mt-3">
                 <span id="like_count">{{post.like_count}}</span>
                 <button value="{{post.pk}}" class="btn btn-link text-light p-0 border-0 button-outline-dark" id="like-button" style="padding: 10px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart-fill like-hover" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" style="border: none;" class="bi bi-heart-fill like-hover" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                     </svg>
                 </button>
@@ -33,13 +34,13 @@
         </div>
     </article>
     {% include 'post/add_comment.html' %}
-     <script>
+    <script>
         $(document).ready(function(){
             $("#like-button").on('click',function(e){
                 e.preventDefault();
                 $.ajax({
                     type : 'POST',
-                    url : "{% url 'like' post.pk %}",
+                    url : "{% url 'post:like' post.pk %}",
                     data : {
                        posted: $('#like-button').val(),
                        csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -54,29 +55,9 @@
                 });
             })
         })
-     </script>
-     
-     <!-- <script>
-        $(document).ready(function(){
-            $("#comment-button").on('click',function(e){
-                e.preventDefault();
-                $.ajax({
-                    type : 'POST',
-                    url : "{% url 'detail' post.pk %}",
-                    data : {
-                       posted: $('#comment-button').val(),
-                       csrfmiddlewaretoken: '{{ csrf_token }}',
-                       action: 'post'
-                    },
-                   success: function(json) {
-                        document.getElementById("like_count").innerHTML = json['result']
-                       },
-                   error: function (xhr, errmsg, err){
 
-                   }
-                });
-            })
-        })
-     </script> -->
+    </script>
+    
+
     
 {% endblock %}

@@ -15,7 +15,7 @@ def image_upload(instance, filename):
 
 class Post(models.Model):
     body   = models.TextField()
-    date   = models.DateField(default=timezone.now)
+    date   = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     image  = models.ImageField(upload_to=image_upload, blank=True, null=True)
     like   = models.ManyToManyField(User, blank=True, related_name="like_button")
@@ -25,7 +25,7 @@ class Post(models.Model):
         return self.body
         
     def get_absolute_url(self):
-        return reverse('detail' , kwargs={'pk': self.pk})
+        return reverse('post:detail' , kwargs={'pk': self.pk})
 
 
 class PostComments(models.Model):

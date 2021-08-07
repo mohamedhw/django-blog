@@ -125,7 +125,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    '/var/www/static/',
+    BASE_DIR / "post" / "static",
 ]
 
 # Default primary key field type

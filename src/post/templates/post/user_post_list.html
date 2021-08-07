@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content%}
-    <h1 style="margin-top: 80px">({{ posts.count }}) posted by {{ view.kwargs.username }}</h1>
+    <h1 class="title" style="margin-top: 80px">({{ posts.count }}) posted by {{ view.kwargs.username }}</h1>
     {% for post in posts %}
             <article>
                 <div class="articles col-lg-6 offset-3">
@@ -17,26 +18,7 @@
                 </div>
             </article>
     {% endfor %}
-    <div class="up">&uarr;</div>
-    <script>
-        $(function(){
-            $(window).on('scroll', function(){
-                var sc = $(window).scrollTop(), //the heigh between the top and the scroll
-                    cc = $(window).height(); //the screen height
-                console.log(sc)
-                console.log(cc)
-                if(sc = (cc + 1)) {
-                    $('.up').fadeIn();
-                } else {
-                    $('.up').fadeOut();
-                }
-            });
-            
-            $(".up").click(function(){
-                $('body, html').animate({
-                    scrollTop: 0
-                }, 1000);
-            });
-        });
-    </script>
+    <div onclick="topWindo()" class="up" id="up">&uarr;</div>
+    
+    <script src="{% static 'js.js' %}"></script>
 {% endblock %}

@@ -14,7 +14,7 @@ from django.core import serializers
 class HomeView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'post/post_list_temp.html'
-    ordering = ['-date']
+    ordering = ('-date',)
     paginate_by = 5
 
 
@@ -33,11 +33,34 @@ class UserPostsView(ListView):
 # class PostDetailview(DetailView):
 #     model = Post
 
+
+def aj_comments(request, pk):
+    form = CommentsFrom(request.POST or None)
+    data = {}
+
+    if request.is_ajax():
+        if form.is_valid():
+            form.save()
+        return JsonResponse(data)
+
+    context = {
+        'form': form
+    }
+    return render(request, )
+
 @login_required
 def detailview(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    comments = PostComments.objects.all().filter(post=post)
+    # comments = PostComments.objects.all().filter(post=post)
+    form = CommentsFrom(request.POST or None)
     instance_ = None
+    # if request.is_ajax():
+    #     if form.is_valid():
+    #         data = form.save(commit=False)
+    #         data.author = request.user
+    #         data.post = post
+    #         data.save()
+    #         return JsonResponse(data)
     if request.method == 'POST':
         form = CommentsFrom(request.POST)
         if form.is_valid():
@@ -45,16 +68,36 @@ def detailview(request, pk):
             instance_.author = request.user
             instance_.post = post
             instance_.save()
+            return JsonResponse({
+                "comment" : instance_.comment
+            })
+
+        else:
+            form = CommentsFrom()
     else:
         form = CommentsFrom()
 
     context = {
         'post': post,
         'comments': instance_,
-        'comments': comments,
+        # 'comments': comments,
         'form': form,
     }
     return render(request, 'post/post_detail.html', context)
+
+def aj_get_comment(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    comments = PostComments.objects.all().filter(post=post)
+    data = []
+    for obj in comments:
+        item = {
+            "comment": obj.comment,
+            "date": obj.date,
+            "author": obj.author.username,
+            "img": obj.author.profile.image.url,
+        }
+        data.append(item)
+    return JsonResponse({"data":data})
 
 
 def add_comment(request, pk):
@@ -174,10 +217,10 @@ def searchpost(request):
 #     print(date)
 
 
-class CommentView(ListView):
-    model = PostComments
-    template_name = 'post/comment_temp.html'
-    ordering = ['-date']
+# class CommentView(ListView):
+#     model = PostComments
+#     template_name = 'post/comment_temp.html'
+#     ordering = ['-date']
 
 
 # def add_comment_to_post(request, pk):
