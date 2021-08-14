@@ -140,6 +140,17 @@ textarea{
     color: #00dba0 !important
 }
 
+
+#save-button:hover,
+#save-button:focus{
+    color: #00dba0 !important
+}
+
+.save-button {
+    color: #00bda0;
+}
+
+
 .log-in-p {
     color: #FFF;
 }
@@ -267,5 +278,6 @@ input {
 }
 
 .title {
-    color:#00bda0
+    color:#00bda0 !important;
 }
+

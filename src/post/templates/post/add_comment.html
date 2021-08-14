@@ -3,7 +3,7 @@
 {% block content %}
     <hr>
     <h1 class="title">{{ object_list.count }} Comments...</h1>
-    <div class='my-border' id="comments" style="border-radius: 15px; color:aliceblue">
+    <div class='my-border m-5' id="comments" style="border-radius: 15px; color:aliceblue;">
         <div id = "p-comments"></div>
         {% comment %} {% for comment in comments %}
             <div class="comment row">
@@ -17,7 +17,7 @@
         {% empty %}
             <p>No comments here yet :(</p>
         {% endfor %} {% endcomment %}
-        <div class='container commentin mt-5 pt-5'>
+        <div class='container commentin mt-1 pt-5 mb-5'>
             <form method="POST" id="p-form">
                 {% csrf_token %}
                 {{form}}

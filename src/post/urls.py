@@ -15,6 +15,8 @@ from .views import (
     add_comment,
     aj_comments,
     aj_get_comment,
+    save_button,
+    saved_posts,
     )
 
 from . import api
@@ -40,4 +42,6 @@ urlpatterns = [
     path('<int:pk>/like/', like_button, name="like"),
     path('comment/', aj_comments),
     path('<int:pk>/get/', aj_get_comment, name="get"),
+    path('<int:pk>/saved/', save_button, name="save"),
+    path('save/', saved_posts, name="saved")
 ]

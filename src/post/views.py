@@ -7,7 +7,7 @@ from django.views.generic import ListView, DetailView, DeleteView, CreateView, U
 from .models import Post, PostComments
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import CommentsFrom
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test 
 from django.http import JsonResponse
 from django.core import serializers
 
@@ -84,6 +84,28 @@ def detailview(request, pk):
         'form': form,
     }
     return render(request, 'post/post_detail.html', context)
+
+@login_required
+def saved_posts(request):
+    user = request.user
+    posts = user.save_post.all()
+    context = {
+        'posts': posts,
+    }
+    return render(request, "post/saved_posts.html", context)
+
+
+@login_required
+def save_button(request, pk):
+    if request.POST.get('action') == 'post':
+        data = {}
+        post = Post.objects.get(pk=pk)
+        if request.user in post.save_post.all():
+            post.save_post.remove(request.user)
+        else:
+            post.save_post.add(request.user)
+    return JsonResponse({'data': data})
+
 
 def aj_get_comment(request, pk):
     post = get_object_or_404(Post, pk=pk)

@@ -14,12 +14,13 @@ def image_upload(instance, filename):
 
 
 class Post(models.Model):
-    body   = models.TextField()
-    date   = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    image  = models.ImageField(upload_to=image_upload, blank=True, null=True)
-    like   = models.ManyToManyField(User, blank=True, related_name="like_button")
+    body       = models.TextField()
+    date       = models.DateTimeField(default=timezone.now)
+    author     = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    image      = models.ImageField(upload_to=image_upload, blank=True, null=True)
+    like       = models.ManyToManyField(User, blank=True, related_name="like_button")
     like_count = models.BigIntegerField(default='0')
+    save_post  = models.ManyToManyField(User, blank=True, related_name="save_post")
 
     def __str__(self):
         return self.body
