@@ -11,7 +11,7 @@
                             <div class="article-detail-list row">
                                 <img class="author-img col-sm-3" src="{{ post.author.profile.image.url }}">
                                 <div class="col-sm-4">
-                                    <h3 class="author"><a href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a></h3>
+                                    <h3 class="author"><a href="{% url 'post:user-posts' post.author.username %}">{{ post.author }}</a></h3>
                                     <small class="date">{{ post.date|date:" F d , Y" }}</small>
                                 </div>
                             </div>

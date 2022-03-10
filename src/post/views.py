@@ -201,14 +201,14 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
-
+@login_required
 def searchpost(request):
     if request.method == 'POST':
         searched = request.POST['searched']
         posts = Post.objects.filter(body__contains=searched)
         context = {
             'searched' : searched,
-            'posts' : posts 
+            'posts' : posts,
         }
         return render(request, 'post/search_temp.html', context)
     else:
