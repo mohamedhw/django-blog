@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="my-bordre register">
+        <form method='post' class="site_form"> {% csrf_token %}
+            <div class="col-lg-4">
+                {{form.as_p}}
+                <input class="ptn ptn-outline-info" type="submit" value="register">
+            </div>
+        </form>
+    </div>    
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <hr>
+    <h1 class="title">{{ object_list.count }} Comments...</h1>
+    <div class='my-border m-5' id="comments" style="border-radius: 15px; color:aliceblue;">
+        <div id = "p-comments"></div>
+        {% comment %} {% for comment in comments %}
+            <div class="comment row">
+                <img class="author-img col-sm-3" src="{{ comment.author.profile.image.url }}">
+                <h3 class="author col-sm-3"><a href="{% url 'user-posts' comment.author.username %}">{{ comment.author }}</a></h3>
+                <!-- <p id="com" style="margin-left: 10px;">{{ comment.comment|linebreaks }}</p> -->
+                <p id="com" style="margin-left: 10px;"></p>
+                <small class="date col-sm-2" id="date"></small>
+            </div>
+            <hr>
+        {% empty %}
+            <p>No comments here yet :(</p>
+        {% endfor %} {% endcomment %}
+        <div class='container commentin mt-1 pt-5 mb-5'>
+            <form method="POST" id="p-form">
+                {% csrf_token %}
+                {{form}}
+                <button class="btn btn-outline-info col-lg-2 offset-10 mt-3" id='comment-button'>Post</button>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+    {% block javascript %}
+    <script>
+        const postsBox = document.getElementById('p-comments')
+        $(document).ready(function(){
+            setInterval(function(){
+                $.ajax({
+                    type: "GET",
+                    url: decodeURI("{% url 'post:get' post.pk %}"),
+                    success: function(response){
+                        console.log(response.data)
+                        // console.log(response)
+                        // const data = response.data;
+                        // data.forEach(el =>{
+                        //     postsBox.innerHTML += `
+                        //         ${el.name} - <b>${el.age}</b><hr>
+                        //        `
+                        // })
+                        $(postsBox).empty();
+                        for (let key in response.data){
+
+                            postsBox.innerHTML += 
+                            "<div class='row comment mb-3'>" +
+                                "<img class='author-img col-sm-4 mb-3' src=" + response.data[key].img + ">" +
+                                "<div class='row comment col-sm-4 mb-3' style='margin:0; padding:0'>" +
+                                    "<h3 class='author col-sm-12 mb-1'>" + response.data[key].author + "</h3>" +
+                                    "<small class='date col-sm-8'>" + response.data[key].date + "</small>" +
+                                "</div>"
+                                + '<br>' +
+                                "<p class='mx-5 mt-4 mb-4'>" + response.data[key].comment + "</p>"
+                            +"</div>"
+                            + "<hr>"
+
+                        };
+                    },
+                    error: function(error){
+                        console.log(error)
+                    },
+                });
+            }, 100);
+        });
+
+        const form    = document.getElementById("p-form")
+        const comment = document.getElementById('id_comment')
+        const csrf    = document.getElementsByName('csrfmiddlewaretoken')
+        console.log(csrf)
+
+
+        // ajax form
+        form.addEventListener("submit", e=>{
+            e.preventDefault()
+
+            const fd = new FormData()
+            fd.append('csrfmiddlewaretoken', csrf[0].value)
+            fd.append('comment', comment.value)
+
+
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: fd,
+                success: function(response){
+                    $(comment).append(fd)
+                },
+                error: function(error){
+                    console.log(error)
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            })
+        })
+
+        console.log(form)
+    </script>
+    <script src="{% static 'js.js' %}"></script>
+    {% endblock javascript %}

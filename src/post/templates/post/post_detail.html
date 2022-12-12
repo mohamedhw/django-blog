@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+    <article>
+        <div class="articles">
+            <div class="article mt-5">
+                <div class="row">
+                    <img class="author-img-detail col-sm-3" src="{{ post.author.profile.image.url }}">
+                    <div class="article-detail col-sm-4">
+                        <h3 class="author"><a href="{% url 'post:user-posts' user.username %}">{{ post.author }}</a></h3>
+                        <small class="date">{{ post.date|date:" F d , Y" }}</small>
+                        {% if post.author == user %}
+                        <div>
+                            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post:update' post.id %}">Update</a>
+                            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post:delete' post.id %}">Delete</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr>
+                {% if post.image %}
+                    <img class="col-lg-8 detail-img" src="{{post.image.url}}">
+                {% endif %}
+                <p class="mt-5">{{ post.body }}</p>
+                <hr>
+                <div class="row">
+                    <div class="mx-5 mt-3 col-lg-1">
+                        <span id="like_count">{{post.like_count}}</span>
+                        <button value="{{post.pk}}" class="btn btn-link text-light p-0 border-0 button-outline-dark" id="like-button" style="padding:10px">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" style="border: none;" class="bi bi-heart-fill like-hover" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="col-lg-1 mt-3"> 
+                        <button class="btn btn-link text-light p-0 border-0 button-outline-light" id="save-button" style="padding:10px">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </article>
+    {% include 'post/add_comment.html' %}
+    <script>
+        $(document).ready(function(){
+            $("#like-button").on('click',function(e){
+                e.preventDefault();
+                $.ajax({
+                    type : 'POST',
+                    url : "{% url 'post:like' post.pk %}",
+                    data : {
+                       posted: $('#like-button').val(),
+                       csrfmiddlewaretoken: '{{ csrf_token }}',
+                       action: 'post'
+                    },
+                   success: function(json) {
+                        document.getElementById("like_count").innerHTML = json['result']
+                       },
+                   error: function (xhr, errmsg, err){
+
+                   }
+                });
+            })
+        })
+        const save_button = document.getElementById('#save-button')
+
+        $(document).ready(function(){
+            $("#save-button").on('click',function(e){
+                e.preventDefault();
+                $.ajax({
+                    type : 'POST',
+                    url : "{% url 'post:save' post.pk %}",
+                    data : {
+                       posted: $('#save-button').val(),
+                       csrfmiddlewaretoken: '{{ csrf_token }}',
+                       action: 'post'
+                    },
+                    success: function(response) {
+                        if(request.user in post.save_post.all()){
+                            save_button.classList.add("save-button")
+                        }
+                    },
+                    error: function (xhr, errmsg, err){
+
+                    }
+                });
+            })
+        })
+
+    </script>
+    
+
+    
+{% endblock %}

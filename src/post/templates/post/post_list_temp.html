@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content%}
+    {% for instance in object_list %}
+            <article>
+                <div class="articles col-lg-6 offset-3">
+                    <div class="article mt-5">
+                        <div class="article-detail-list row">
+                            <img class="author-img col-sm-3" src="{{ instance.author.profile.image.url }}">
+                            <div class="col-sm-4">
+                                <h3 class="author"><a href="{% url 'post:user-posts' instance.author.username %}">{{ instance.author }}</a></h3>
+                                <small class="date">{{ instance.date|date:"d , M - f" }}</small>
+                            </div>
+                        </div>
+                        <p><a href="{{ instance.get_absolute_url }}">{{ instance.body|slice:250 }}</a></p>
+                    </div>
+                </div>
+            </article>
+    {% endfor %}
+    <div class="col-lag-6 offset-lg-5">
+        {% if is_paginated %}
+
+            {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+
+        {% endif %}
+    </div>
+    <script>
+        let counter = 0;
+        let quantity = 10;
+        document.addEventListener('DOMContentLoaded', load );
+        
+        window.onscroll = () => {
+            if (window.innerHeight + window.scrollY >= window.offsetHeight) {
+                load();
+            }
+        };
+
+        function load(){
+            const start = counter;
+            const end = start + quantity - 1;
+            counter = end + 1;
+            fetch(``)
+            .then(response => response.json())
+            .then(data => {
+                data.post
+            })
+        };
+
+    </script>
+{% endblock %}

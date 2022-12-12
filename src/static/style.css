@@ -1,0 +1,283 @@
+body {
+    background-color: rgb(0, 0, 0);
+    color: #FFF
+}
+
+.dark {
+    background-color:rgb(0, 0, 0);
+    color: #FFF;
+}
+
+* {
+    font-family: Ubuntu;
+}
+
+hr {
+    border: none;
+    color: #00dba0;
+    margin-bottom: 30px;
+}
+
+a, a:hover, a:visited {
+    color: #fff;
+    text-decoration: none;
+}
+
+h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    color: #FFF
+}
+
+
+.articles {
+    display: grid;
+    grid-gap: 30px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.article {
+    border: 1px solid #00dba0;
+    border-radius: 12px;
+    padding: 10px;
+    position: relative;
+    padding-bottom: 40px;
+}
+
+.author-img {
+    border-radius: 50%;
+    height:70px;
+    width: 90px;
+}
+
+.article-detail-list {
+    margin-bottom: 35px;
+}
+
+.author {
+    margin-bottom: 0px;
+}
+
+
+.article-detail .article {
+    padding: 0;
+}
+
+.detail-img {
+    margin-left: 180px;
+    padding: auto;
+}
+
+.article p {
+    text-align: center;
+}
+
+.article-detail {
+    padding-left: 10px;
+    margin-bottom: 20px;
+    padding-top: 10px
+}
+
+.author-img-detail {
+    border-radius: 50%;
+    width:130px;
+    height: 130px;
+    padding: 10px;
+    margin-left: 15px;
+}
+
+textarea{
+    width: 100%
+}
+
+.register {
+    margin-top: 100px;
+    margin-bottom: 40px
+}
+
+.site-form {
+    border: 1px solid #00bda0;
+    padding: 50px
+}
+
+.site-form input, .site-form label {
+    display: block;
+    margin: 20px 0;
+    padding: 10px;
+    font-size: .9em;
+}
+
+.site-form input[type=submit] {
+    background-color: #00dba0;
+    border: 0;
+    border-radius: 4px;
+    color: #000;
+    font-weight: bolder;
+    width: 90px;
+}
+
+.site-form input[type=submit]:hover {
+    color: #FFF;
+    background-color: #000;
+    cursor: pointer;
+}
+
+.site_form {
+    border: 1px solid #00bda0;
+    border-radius: 20px;
+    padding: 50px;
+    margin-top: 30px
+}
+
+.site_form input, .site_form label {
+    display: block;
+    margin: 20px 0;
+    padding: 10px;
+    font-size: .9em;
+}
+
+.like-hover:hover,
+.like-hover:focus{
+    color: #00dba0 !important
+}
+
+
+#save-button:hover,
+#save-button:focus{
+    color: #00dba0 !important
+}
+
+.save-button {
+    color: #00bda0;
+}
+
+
+.log-in-p {
+    color: #FFF;
+}
+
+.site_form input[type=submit] {
+    background-color: #00dba0;
+    border: 0;
+    border-radius: 4px;
+    color: #000;
+    font-weight: bolder;
+    width: 90px;
+}
+
+.site_form input[type=submit]:hover {
+    color: #FFF;
+    cursor: pointer;
+    background: rgba(3, 79, 65, 0.8)
+}
+
+label {
+    color: #FFF;
+    margin: 10px 9px;
+    display: block
+}
+
+input {
+    width: 100%
+}
+
+.log-in-button {
+    margin:auto;
+    background: rgb(29, 161, 242);
+    border: none;
+    width: 100%;
+    height: 40px;
+    border-radius: 20px;
+    font: italic bolder 25px / 1px  Arial;
+    color: #FFF;
+}
+
+
+.log-in-button:hover,
+.log-in-button:focus {
+    background: rgb(23, 145, 224);
+    color: rgb(255, 255, 255)
+}
+
+.log-in-p {
+    color: #FFF;
+    text-align: center;
+    font-weight: bold;
+    font-size: 36px
+}
+
+.new-post p {
+    color: #FFF;
+    text-align: center;
+    font-weight: bold;
+    font-size: 36px
+}
+
+.helptext, .helptext ul {
+    margin: 0 auto 20px;
+    color: #bbb;
+    font-size: 14px;
+    display: block;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.errorlist li {
+    padding: 10px;
+    list-style-type: none;
+    border: 1px solid #FF5722;
+    margin: 10px 0;
+    color: #FF5722
+}
+
+.comment {
+    margin: 20px 0px 20px 20px;
+}
+
+#id_comment {
+    height: 100px;
+    max-height: auto;
+    border-radius: 10px;
+    border: none;
+    font-size: 30px;
+}
+
+#id_image {
+    font-size: normal
+}
+
+.errorlist {
+    padding: 0;
+}
+
+.my-border {
+    border: 1px solid #00bda0;
+    border-radius: 4px;
+    margin-top: 100px;
+    margin-bottom: 40px;
+    padding: 20px
+}
+
+
+.up {
+    width: 32px;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    background-color: #FFF;
+    border: none;
+    color: #000;
+    display: none;
+    transition-duration: 1000;
+    cursor: pointer;
+    font-size: 20px;
+    text-align: center;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s
+}
+
+.title {
+    color:#00bda0 !important;
+}
+
