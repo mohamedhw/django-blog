@@ -35,9 +35,8 @@
             </li>
           {% endif %}
         </ul>
-        <form class="d-flex" method="POST" action="{% url 'post:search' %}">
-            {% csrf_token %}
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searched">
+        <form class="d-flex" method="GET" action="{% url 'post:search' %}">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
           <button class="btn btn-outline-secondary" type="submit">Search</button>
         </form>  
       </div>

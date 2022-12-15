@@ -203,16 +203,12 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 @login_required
 def searchpost(request):
-    if request.method == 'POST':
-        searched = request.POST['searched']
-        posts = Post.objects.filter(body__contains=searched)
-        context = {
-            'searched' : searched,
-            'posts' : posts,
-        }
-        return render(request, 'post/search_temp.html', context)
-    else:
-        return render(request, 'post/search_temp.html',{})
+    query = request.GET.get('q')
+    qs = Post.objects.search(query=query)
+    context = {
+        "qs": qs
+    }
+    return render(request, 'post/search_temp.html', context)
 
 
 # def createcomment(request, pk):

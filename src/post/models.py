@@ -3,7 +3,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
-    
+from django.db.models import Q    
 
 
 
@@ -12,6 +12,15 @@ from django.urls import reverse
     
 #     return "post_images/%s.%s"%(instance.date,ext)
 
+
+class PostManager(models.Manager):
+
+    def search(self, query=None):
+        if query is None or query == "":
+            self.get_queryset().none()
+
+        lookups = Q(body__icontains=query)
+        return self.get_queryset().filter(lookups)
 
 class Post(models.Model):
     body       = models.TextField()
@@ -22,6 +31,7 @@ class Post(models.Model):
     like_count = models.BigIntegerField(default='0')
     save_post  = models.ManyToManyField(User, blank=True, related_name="save_post")
 
+    objects = PostManager()
     def __str__(self):
         return self.body
         

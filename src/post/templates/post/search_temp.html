@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content%}
     <div>
-        {% if searched %}
-            <h1 style="margin-top: 100px">results for {{ searched }}</h1>
+        {% if qs %}
+            <h1 style="margin-top: 100px">[{{ qs.count }}] Result</h1>
             <br/>
-            {% for post in posts %}
+            {% for post in qs %}
                 <article>
                     <div class="articles col-lg-6 offset-3">
                         <div class="article mt-5">
@@ -20,7 +20,8 @@
                     </div>
                 </article>
                 {% empty %}
-                <p>No results</p>
+            
+                <p class="mt-5">No results</p>
             {% endfor %}
         {% else %}
             <p class="mt-5" style="text-align: center; font-size: 30px;">No result</p>
