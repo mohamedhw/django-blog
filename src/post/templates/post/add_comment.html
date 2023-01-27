@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
 {% load static %}
 {% block content %}
     <hr>
@@ -8,7 +10,7 @@
         {% comment %} {% for comment in comments %}
             <div class="comment row">
                 <img class="author-img col-sm-3" src="{{ comment.author.profile.image.url }}">
-                <h3 class="author col-sm-3"><a href="{% url 'user-posts' comment.author.username %}">{{ comment.author }}</a></h3>
+                <h3 class="author col-sm-3"><a href="{% url 'post:user-posts' comment.author.username %}">{{ comment.author }}</a></h3>
                 <!-- <p id="com" style="margin-left: 10px;">{{ comment.comment|linebreaks }}</p> -->
                 <p id="com" style="margin-left: 10px;"></p>
                 <small class="date col-sm-2" id="date"></small>
@@ -20,7 +22,7 @@
         <div class='container commentin mt-1 pt-5 mb-5'>
             <form method="POST" id="p-form">
                 {% csrf_token %}
-                {{form}}
+                {{form|crispy}}
                 <button class="btn btn-outline-info col-lg-2 offset-10 mt-3" id='comment-button'>Post</button>
             </form>
         </div>

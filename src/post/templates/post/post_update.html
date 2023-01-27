@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
     <div class="my-border">
@@ -6,7 +7,7 @@
         <div class="container col-lg-4 offset-lg-4 mt-5 log-in-form">
             <form method="post" enctype="multipart/form-data" action=""> {% csrf_token %}
                 <div class="form-control-lg" id="inputEmail3">
-                    {{form.as_p}}
+                    {{form|crispy}}
                 </div>
                 <input class="btn btn-light log-in-button col-lg-4" type='submit' value='update'>
             </form>

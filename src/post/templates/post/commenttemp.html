@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
         <div class="col-lg-8 log-in-form my-border new-post" style="border-radius:13px">
             <p>new post</p>
             <form method="post"> {% csrf_token %}
                 <div class="col-sm-8 offset-lg-1" id="inputEmail3">
-                    {{form}}
+                    {{form|crispy}}
                 </div>
                 <input class="btn btn-outline-info col-lg-4 offset-lg-1" type='submit' value='Post'>
             </form>

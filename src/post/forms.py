@@ -18,5 +18,5 @@ class CommentsFrom(forms.ModelForm):
     class Meta:
         model  = PostComments
         fields = {
-            'comment' 
+            'comment'
         }
