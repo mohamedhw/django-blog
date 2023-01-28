@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content%}
-    <h1 class="title" style="margin-top: 80px">({{ posts.count }}) posted by {{ view.kwargs.username }}</h1>
+    <h1 class="title" style="margin-top: 80px">[{{ posts.count }}] posted by {{ view.kwargs.username }}</h1>
     {% for post in posts %}
             <article>
                 <div class="articles col-lg-6 offset-3">
