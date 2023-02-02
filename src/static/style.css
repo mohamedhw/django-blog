@@ -135,14 +135,13 @@ textarea{
     font-size: .9em;
 }
 
-.like-hover:hover,
-.like-hover:focus{
+#like-button:hover
+{
     color: #00dba0 !important
 }
 
 
-#save-button:hover,
-#save-button:focus{
+#save-button:hover{
     color: #00dba0 !important
 }
 

@@ -26,18 +26,34 @@
                 <div class="row">
                     <div class="mx-5 mt-3 col-lg-1">
                         <span id="like_count">{{post.like_count}}</span>
-                        <button value="{{post.pk}}" class="btn btn-link text-light p-0 border-0 button-outline-dark" id="like-button" style="padding:10px">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" style="border: none;" class="bi bi-heart-fill like-hover" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
-                        </button>
+                        {% if request.user in post.like.all %}
+                            <button value="{{post.pk}}" class="btn btn-link save-button p-0" id="like-button" style="padding:10px">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" style="border: none;" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                </svg>
+                            </button>
+                        {% else %}
+                            <button value="{{post.pk}}" class="btn btn-link text-light p-0" id="like-button" style="padding:10px">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" style="border: none;" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                </svg>
+                            </button>
+                        {% endif %}
                     </div>
-                    <div class="col-lg-1 mt-3"> 
-                        <button class="btn btn-link text-light p-0 border-0 button-outline-light" id="save-button" style="padding:10px">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
-                                <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
-                            </svg>
-                        </button>
+                    <div class="col-lg-1 mt-3">
+                        {% if request.user in post.save_post.all %}
+                            <button class="btn btn-link save-button p-0" id="save-button" style="padding:10px">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                </svg>
+                            </button>
+                        {% else %}
+                            <button class="btn btn-link text-light p-0" id="save-button" style="padding:10px">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                                    <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/>
+                                </svg>
+                            </button>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -59,6 +75,8 @@
                     },
                    success: function(json) {
                         document.getElementById("like_count").innerHTML = json['result']
+                        $('#like-button').toggleClass('text-light', 'save-button');
+                        $('#like-button').toggleClass('save-button', 'text-light');
                        },
                    error: function (xhr, errmsg, err){
 
@@ -67,7 +85,7 @@
             })
         })
         const save_button = document.getElementById('#save-button')
-
+        
         $(document).ready(function(){
             $("#save-button").on('click',function(e){
                 e.preventDefault();
@@ -80,9 +98,8 @@
                        action: 'post'
                     },
                     success: function(response) {
-                        if(request.user in post.save_post.all()){
-                            save_button.classList.add("save-button")
-                        }
+                        $('#save-button').toggleClass('text-light', 'save-button');
+                        $('#save-button').toggleClass('save-button', 'text-light');
                     },
                     error: function (xhr, errmsg, err){
 
